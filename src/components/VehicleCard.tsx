@@ -1,4 +1,5 @@
 import { Heart, Gauge, Fuel, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 interface Vehicle {
@@ -32,6 +33,12 @@ const formatKm = (km: number) => {
 };
 
 const VehicleCard = ({ vehicle, index }: VehicleCardProps) => {
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate(`/estoque/${vehicle.id}`);
+  };
+
   return (
     <article
       className="group relative bg-gradient-to-b from-obsidian-light to-obsidian border border-gold/10 rounded-lg overflow-hidden transition-all duration-500 hover:border-gold/30 hover:shadow-gold-glow animate-fade-up"
@@ -48,6 +55,7 @@ const VehicleCard = ({ vehicle, index }: VehicleCardProps) => {
       <button
         className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-obsidian/70 backdrop-blur-sm flex items-center justify-center text-cream/60 hover:text-gold hover:bg-obsidian transition-all duration-300"
         aria-label="Adicionar aos favoritos"
+        data-testid="button-favorite"
       >
         <Heart size={18} />
       </button>
@@ -99,7 +107,12 @@ const VehicleCard = ({ vehicle, index }: VehicleCardProps) => {
               {formatPrice(vehicle.price)}
             </span>
           </div>
-          <Button variant="luxury" size="sm">
+          <Button 
+            variant="luxury" 
+            size="sm"
+            onClick={handleViewDetails}
+            data-testid={`button-view-details-${vehicle.id}`}
+          >
             Ver Detalhes
           </Button>
         </div>
